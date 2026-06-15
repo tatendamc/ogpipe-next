@@ -1,0 +1,61 @@
+{
+  "name": "@ogpipe/next",
+  "version": "1.0.0",
+  "description": "Pixel-perfect OG images for Next.js — full CSS, any font, any hosting platform",
+  "keywords": ["og-image", "open-graph", "next.js", "social-cards", "seo", "chromium"],
+  "license": "MIT",
+  "author": "Order Udye Pvt Ltd",
+  "homepage": "https://ogpipe.dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ogpipe/ogpipe-next"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./client": {
+      "types": "./dist/client/index.d.ts",
+      "import": "./dist/client/index.js",
+      "require": "./dist/client/index.cjs"
+    }
+  },
+  "bin": {
+    "ogpipe": "./dist/bin/ogpipe.js"
+  },
+  "files": [
+    "dist",
+    "templates",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0"
+  },
+  "peerDependencies": {
+    "next": ">=13.0.0",
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "peerDependenciesMeta": {
+    "next": { "optional": false },
+    "react": { "optional": false },
+    "react-dom": { "optional": false }
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "tsup": "^8.3.0",
+    "typescript": "^5.4.0",
+    "vitest": "^2.0.0"
+  }
+}

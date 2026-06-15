@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { theme: { extend: { fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] } } } }</script>
+</head>
+<body class="w-[1200px] h-[630px] flex flex-col justify-center p-16 font-sans bg-[#0a0a0f] relative overflow-hidden">
+  <!-- Gradient accent -->
+  <div class="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-emerald-400 via-cyan-400 to-blue-500"></div>
+  <div class="absolute top-0 right-16 w-[300px] h-[300px] rounded-full bg-emerald-500/5 blur-3xl"></div>
+
+  <!-- Version badge -->
+  <div class="relative z-10 flex items-center gap-3 mb-6">
+    <span class="px-3 py-1.5 rounded-md bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-mono text-sm font-medium">{{version}}</span>
+    <span class="text-slate-600 text-sm">{{date}}</span>
+  </div>
+
+  <!-- Headline -->
+  <h1 class="relative z-10 text-[52px] font-bold text-white leading-[1.15] tracking-tight max-w-[900px]">{{title}}</h1>
+
+  <!-- Summary -->
+  <p class="relative z-10 text-[20px] text-slate-400 mt-5 max-w-[700px] leading-relaxed">{{description}}</p>
+
+  <!-- Footer -->
+  <div class="relative z-10 mt-auto flex items-center gap-2">
+    <div class="w-2 h-2 rounded-full bg-emerald-400"></div>
+    <span class="text-slate-600 text-sm font-medium">{{site}}</span>
+  </div>
+</body>
+</html>

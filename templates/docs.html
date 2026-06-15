@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { theme: { extend: { fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] } } } }</script>
+</head>
+<body class="w-[1200px] h-[630px] flex flex-col justify-center p-16 font-sans bg-[#fafafa] relative">
+  <!-- Top accent line -->
+  <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-cyan-500 to-teal-500"></div>
+
+  <!-- Category badge -->
+  <span class="inline-flex items-center w-fit px-3 py-1.5 rounded-md bg-blue-50 border border-blue-100 text-blue-700 font-mono text-sm font-medium mb-6">{{category}}</span>
+
+  <!-- Title -->
+  <h1 class="text-[48px] font-semibold text-gray-900 leading-[1.2] tracking-tight max-w-[900px]">{{title}}</h1>
+
+  <!-- Description -->
+  <p class="text-[22px] text-gray-500 mt-4 max-w-[750px] leading-relaxed">{{description}}</p>
+
+  <!-- Brand -->
+  <p class="absolute bottom-14 right-16 text-[20px] font-medium text-gray-400">{{site}}</p>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { margin: 0; font-family: 'Inter', sans-serif; }
+  </style>
+</head>
+<body class="w-[1200px] h-[630px] bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex flex-col justify-between p-16 relative overflow-hidden">
+  <!-- Subtle grid pattern overlay -->
+  <div class="absolute inset-0 opacity-[0.03]" style="background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2260%22 height=%2260%22><rect fill=%22none%22 width=%2260%22 height=%2260%22/><path d=%22M0 60L60 0%22 stroke=%22white%22 stroke-width=%220.5%22/></svg>');"></div>
+  
+  <!-- Top: category badge -->
+  <div class="flex items-center gap-3 z-10">
+    <span class="px-3 py-1 bg-blue-500/20 border border-blue-400/30 rounded-full text-blue-300 text-sm font-medium tracking-wide uppercase">Engineering</span>
+  </div>
+
+  <!-- Center: title -->
+  <div class="z-10 flex-1 flex flex-col justify-center">
+    <h1 class="text-[58px] font-bold text-white leading-[1.15] tracking-tight">Building Scalable APIs<br/>with Next.js</h1>
+    <p class="text-xl text-slate-400 mt-5 max-w-[700px]">A practical guide to designing API routes that handle millions of requests without breaking a sweat.</p>
+  </div>
+
+  <!-- Bottom: author + site -->
+  <div class="flex items-center justify-between z-10">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-purple-500"></div>
+      <div>
+        <p class="text-white text-sm font-semibold">Sarah Chen</p>
+        <p class="text-slate-500 text-sm">sarahchen.dev</p>
+      </div>
+    </div>
+    <p class="text-slate-600 text-sm font-medium">Rendered by OGPipe</p>
+  </div>
+
+  <!-- Decorative gradient blob -->
+  <div class="absolute -top-20 -right-20 w-[400px] h-[400px] bg-blue-500/10 rounded-full blur-3xl"></div>
+  <div class="absolute -bottom-32 -left-20 w-[300px] h-[300px] bg-purple-500/10 rounded-full blur-3xl"></div>
+</body>
+</html>
