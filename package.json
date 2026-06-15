@@ -1,6 +1,6 @@
 {
   "name": "@ogpipe/next",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Pixel-perfect OG images for Next.js — full CSS, any font, any hosting platform",
   "keywords": ["og-image", "open-graph", "next.js", "social-cards", "seo", "chromium"],
   "license": "MIT",
