@@ -4,7 +4,7 @@
 
 ![OGPipe output example](https://ogpipe.dev/readme-hero.png)
 
-Drop-in replacement for `@vercel/og` that uses real Chromium rendering. No Satori CSS limitations, no font-loading boilerplate, works on any deployment target.
+Alternative to `@vercel/og` that uses real Chromium rendering. No Satori CSS limitations, no font-loading boilerplate, works on any deployment target.
 
 ## Why?
 
