@@ -1,27 +1,19 @@
-# @ogpipe/next
+# OGPipe
 
-**Pixel-perfect OG images for Next.js — full CSS, any font, any hosting platform.**
+**Open-source OG image generation for Next.js**
 
-![OGPipe output example](https://ogpipe.dev/readme-hero.png)
+Pixel-perfect Open Graph images using real Chromium rendering. Full CSS support, any font, deploy anywhere. The open-source alternative to `@vercel/og`.
 
-Alternative to `@vercel/og` that uses real Chromium rendering. No Satori CSS limitations, no font-loading boilerplate, works on any deployment target.
+## Why OGPipe?
 
-## Why?
-
-`@vercel/og` uses Satori (an SVG renderer), not a real browser. This means:
-- ❌ No CSS Grid
-- ❌ No `display: block` or `display: inline`
-- ❌ No `calc()`, no `z-index`, no 3D transforms
-- ❌ No WOFF2 fonts
-- ❌ Flexbox-only layouts with rendering quirks
-- ❌ Only works well on Vercel
-
-**@ogpipe/next** uses real Chromium (headless, on Lambda). This means:
-- ✅ Any CSS that works in Chrome works here
-- ✅ Any font format (TTF, OTF, WOFF, WOFF2, Google Fonts)
-- ✅ Tailwind CSS, CSS Grid, complex layouts — all supported
-- ✅ Deploy anywhere (Vercel, AWS, Netlify, Cloudflare, self-hosted)
-- ✅ Pixel-perfect rendering — what you see in DevTools is what you get
+| Feature | @vercel/og | @ogpipe/next |
+|---------|-----------|--------------|
+| CSS Grid | ✗ | ✓ |
+| Full Tailwind CSS | Subset only | ✓ |
+| Custom fonts | Manual ArrayBuffer | `<link>` tag |
+| Deploy anywhere | Vercel Edge only | Any host |
+| Build-time generation | Per-request only | ✓ (default) |
+| Local dev preview | ✗ | ✓ |
 
 ## Quick Start
 
@@ -29,138 +21,113 @@ Alternative to `@vercel/og` that uses real Chromium rendering. No Satori CSS lim
 npm install @ogpipe/next
 ```
 
-### 1. Create a config
+Create `ogpipe.config.ts`:
 
-```ts
-// ogpipe.config.ts
+```typescript
 import { defineConfig } from '@ogpipe/next'
 
 export default defineConfig({
   templates: {
     blog: { file: './og-templates/blog.html' },
-    default: {
-      html: `<div style="display:flex; width:1200px; height:630px; background:#1a1a2e; align-items:center; justify-content:center; padding:60px;">
-        <h1 style="color:white; font-size:56px;">{{title}}</h1>
-      </div>`,
-    },
   },
   routes: {
     '/blog/[slug]': {
       template: 'blog',
-      vars: (meta) => ({ title: meta.title || '', date: meta.params?.slug || '' }),
+      vars: (meta) => ({ title: meta.title }),
     },
     '*': { template: 'default' },
   },
 })
 ```
 
-### 2. Add to your build script
-
-```json
-{
-  "scripts": {
-    "build": "next build && ogpipe generate"
-  }
-}
-```
-
-### 3. Set your API key
-
-```bash
-export OGPIPE_API_KEY=og_live_your_key_here
-```
-
-Get a free key (50 renders/month) at [ogpipe.dev/signup.html](https://ogpipe.dev/signup.html).
-
-### 4. Build — OG images generated automatically
-
-```bash
-npm run build
-# → ✅ Generated 12 OG images in 4200ms
-# → 📁 Output: public/og/
-```
-
-## Local Preview (Dev Mode)
-
-See your OG images in real-time with hot-reload:
-
-```bash
-npx ogpipe dev
-# → ⚡ OGPipe Dev Preview
-# → http://localhost:3010
-```
-
-Preview shows your images inside Twitter, LinkedIn, Slack, and Discord frames. Edit a template → preview updates instantly.
-
-## Dynamic Routes (On-Demand)
-
-For pages created after build (blogs, products, UGC), use the on-demand handler:
-
-```ts
-// app/blog/[slug]/opengraph-image.ts
-import { OGImageHandler } from '@ogpipe/next'
-
-export default OGImageHandler({
-  html: `<div style="...">{{title}}</div>`,
-  vars: (params) => ({
-    title: params.slug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()),
-  }),
-  revalidate: 86400, // cache 24h
-  fallback: '/og-fallback.png',
-})
-```
-
-First request renders via API (~1-2s). All subsequent requests serve from CDN cache.
-
-## Templates
-
-Templates are HTML files with `{{variable}}` placeholders. Use any CSS:
+Create an HTML template (`og-templates/blog.html`):
 
 ```html
-<!-- og-templates/blog.html -->
-<!DOCTYPE html>
 <html>
 <head>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter" />
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="w-[1200px] h-[630px] flex flex-col justify-center p-20 bg-gradient-to-br from-blue-600 to-purple-700">
+<body class="w-[1200px] h-[630px] flex flex-col p-16
+  bg-gradient-to-br from-slate-900 to-slate-800">
   <h1 class="text-5xl font-bold text-white">{{title}}</h1>
-  <p class="text-xl text-blue-100 mt-4">{{description}}</p>
-  <p class="text-lg text-blue-200 mt-auto">{{author}} · {{date}}</p>
+  <p class="text-xl text-slate-400 mt-4">{{description}}</p>
+  <p class="text-lg text-slate-500 mt-auto">{{author}}</p>
 </body>
 </html>
 ```
 
-## API Client (Framework-Agnostic)
+Generate images at build time:
 
-Use the raw API client from any Node.js context:
-
-```ts
-import { OGPipeClient } from '@ogpipe/next/client'
-
-const client = new OGPipeClient({ apiKey: process.env.OGPIPE_API_KEY })
-const result = await client.render({
-  html: '<div style="...">Hello World</div>',
-  width: 1200,
-  height: 630,
-})
-
-if (result.success) {
-  console.log(result.data.url) // → CDN URL of rendered image
-}
+```bash
+next build && ogpipe generate
 ```
 
-## Pricing
+Output goes to `public/og/` as static PNG files. Zero runtime dependency.
 
-| Plan | Renders/mo | Price |
-|------|-----------|-------|
-| Free | 50 | $0 |
-| Pro | 5,000 | $19/mo |
-| Scale | 25,000 | $49/mo |
+## How It Works
 
-Get your key at [ogpipe.dev](https://ogpipe.dev).
+1. You write OG image templates in HTML/CSS (use Tailwind, Google Fonts, anything)
+2. At build time, OGPipe launches headless Chromium and renders each template
+3. Static PNG files are saved to `public/og/` with a manifest
+4. Your Next.js app serves them as static assets — no API calls in production
+
+## Features
+
+- **Full CSS support** — CSS Grid, calc(), z-index, box-shadow, gradients — anything Chrome renders
+- **Any font** — Google Fonts via `<link>`, custom WOFF2 files, no ArrayBuffer boilerplate
+- **Build-time generation** — OG images become static files during `next build`
+- **Deploy anywhere** — Vercel, AWS, Netlify, Cloudflare, self-hosted
+- **Local preview** — `ogpipe dev` shows your images in social card frames with hot-reload
+- **Pixel-perfect** — Real headless Chrome, not SVG approximation
+
+## Self-Hosted API (Optional)
+
+OGPipe can also run as an API service for dynamic/on-demand rendering:
+
+```
+POST /v1/images
+  → API Gateway (auth + rate limiting)
+  → Lambda (template resolution + rendering)
+  → Playwright/Chromium (HTML → PNG)
+  → S3 + CloudFront (storage + CDN delivery)
+  → Return image URL
+```
+
+See the `infra/` directory for AWS CDK deployment.
+
+## Project Structure
+
+```
+ogpipe/
+├── packages/ogpipe-next/   # npm package (@ogpipe/next)
+├── api/                    # Self-hosted API (Lambda)
+├── infra/                  # AWS CDK infrastructure
+├── site/                   # Documentation site
+├── test-nextjs/            # Example Next.js app
+└── LICENSE                 # MIT
+```
+
+## Development
+
+```bash
+# Install dependencies
+cd packages/ogpipe-next && npm install
+
+# Build the package
+npm run build
+
+# Run tests
+npm test
+
+# Try the example app
+cd test-nextjs && npm install && npm run dev
+```
+
+## Contributing
+
+Contributions welcome! Please open an issue first to discuss what you'd like to change.
 
 ## License
 
-MIT
+MIT — see [LICENSE](./LICENSE)
